@@ -10,7 +10,8 @@ class Book {
                    title,
                    author;
     private boolean isAvailable;// = true;
-
+    //STEP2: TODO: Add a private String field called borrowedBy
+    private String borrowedBy;
     // TODO: Create a constructor that accepts isbn, title, and author
     // Remember to set isAvailable to true by default
 
@@ -19,6 +20,8 @@ class Book {
         this.title = title;
         this.author = author;
         this.isAvailable = true;
+        //STEP2: TODO: Initialize borrowedBy to null
+        this.borrowedBy = null;
     }
 
     // TODO: Create getter methods for all fields
@@ -42,10 +45,22 @@ class Book {
     public boolean isAvailable() {
         return isAvailable;
     }
+    //STEP2: TODO: Add a getter for borrowedBy
+    public String getBorrowedBy() {
+        return borrowedBy;
+    }
+    //STEP2: TODO: Add a setter for borrowedBy that also updates isAvailable
+        // When borrowedBy is set to a non-null value, isAvailable becomes false
+        // When borrowedBy is set to null, isAvailable becomes true
+    public void setBorrowedBy(String userID) {
+        this.borrowedBy = userID;
+        if(borrowedBy == null){
+            isAvailable = true;
+         } else isAvailable = false;
+    }
 
     // TODO: Create a setter for isAvailable
-    // - setAvailable(boolean available)
-
+      // - setAvailable(boolean available)
     public void setAvailable(boolean available) {
         isAvailable = available;
     }

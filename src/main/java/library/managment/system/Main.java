@@ -12,7 +12,7 @@ class Main {
 
         // Read user information
         String userId = "U001";
-        String userName = "Alice Smith";
+        String userName = "Alice";
 
         // TODO: Create a Book object with isbn, title, and author
         Book book = new Book(isbn, title, author);
@@ -22,7 +22,22 @@ class Main {
         System.out.println(book.getDetails());
         // TODO: Print whether the book is available (format: "Available: true" or "Available: false")
         System.out.println("Available: " + book.isAvailable());
+
+        //STEP2: Have the user borrow the book
+        user.borrowBook(book);
+        //STEP2: Print the book's availability again
+        System.out.println("Available: " + book.isAvailable());
+        //STEP2: Print who borrowed it
+        System.out.println("Borrowed by: " + book.getBorrowedBy());
+        //STEP2: Print how many books the user has
+        System.out.println(user.getName() + " has " + user.getBorrowedCount() + " book(s)");
+        //STEP2: Have the user return the book
+        user.returnBook(book);
+        //STEP2: Print the availability one more time
+        System.out.println("Available: " + book.isAvailable());
+
         // TODO: Print the user using toString()
-        System.out.println(user);
+     // STEP2:  System.out.println(user);
+
     }
 }
