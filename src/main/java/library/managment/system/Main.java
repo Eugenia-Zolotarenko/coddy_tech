@@ -1,6 +1,7 @@
 package library.managment.system;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -16,8 +17,8 @@ class Main {
         String userId = "U001";
         String userName = "Alice";
 
-      userId = "S001";
-        userName = "Jack";
+//        userId = "S001";
+//        userName = "Jack";
 
         //STEP3: Read book 1 information
         String isbn1 = "ISBN-001";
@@ -26,22 +27,35 @@ class Main {
 
         //STEP3: Read book 2 information
         String isbn2 = "ISBN-002";
-        String title2 = "Design Patterns";
-        String author2 = "Gang of Four";
+        String title2 = "The Clean Coder";
+        String author2 = "Robert Martin";
 
-        isbn1 = "MATH-1";
-        title1 = "Calculus";
-        author1 = "Newton";
+//        isbn1 = "MATH-1";
+//        title1 = "Calculus";
+//        author1 = "Newton";
 
         //STEP3: Read book 2 information
-        isbn2 = "MATH-2";
-        title2 = "Linear Algebra";
-        author2 = "Gilbert Strang";
+//        isbn2 = "MATH-2";
+//        title2 = "Linear Algebra";
+//        author2 = "Gilbert Strang";
+
+        //STEP4: Read book 3 information
+        String isbn3 = "ISBN-003";
+        String title3 = "Design Patterns";
+        String author3 = "Gang of Four";
+
 
         //STEP3: Read operations string (comma-separated, format: borrow:userId:isbn or return:userId:isbn)
-        String operationsStr = "borrow:U001:ISBN-001,borrow:U001:ISBN-002,return:U001:ISBN-001";
-        operationsStr = "borrow:ID-123:INVALID-ISBN";
-        operationsStr = "borrow:S001:MATH-1,borrow:WRONG:MATH-2,return:S001:MATH-1";
+//        String operationsStr = "borrow:U001:ISBN-001,borrow:U001:ISBN-002,return:U001:ISBN-001";
+//        operationsStr = "borrow:ID-123:INVALID-ISBN";
+//        operationsStr = "borrow:S001:MATH-1,borrow:WRONG:MATH-2,return:S001:MATH-1";
+
+        //STEP4: Read borrow operation
+        String borrowOp = "U001:ISBN-001";
+
+        //STEP4: Read search keywords
+        String titleKeyword = "clean";
+        String authorKeyword = "martin";
 
 
         // TODO: Create a Book object with isbn, title, and author
@@ -69,11 +83,13 @@ class Main {
         System.out.println();
 
         // TODO: Print the user using toString()
-     // STEP2:  System.out.println(user);
+        // STEP2:  System.out.println(user);
 
         //STEP3: TODO: Create Book objects for book1 and book2
         Book book1 = new Book(isbn1, title1, author1);
         Book book2 = new Book(isbn2, title2, author2);
+        //STEP4:
+        Book book3 = new Book(isbn3, title3, author3);
 
         //STEP3: TODO: Create a User object
         //User user1 = new User(userId, userName);
@@ -82,26 +98,71 @@ class Main {
         Library library = new Library();
         library.addBook(book1);
         library.addBook(book2);
+        //STEP4:
+        library.addBook(book3);
         library.registerUser(user);
 
         //STEP3: TODO: Split operationsStr by "," and process each operation
         //       For each operation, split by ":" to get action, userId, isbn
         //       Call library.borrowBook() or library.returnBook() accordingly
-        String[] operations = operationsStr.split(",");
+//        String[] operations = operationsStr.split(",");
+//
+//        for (String operation : operations) {
+//            String[] currentOperation = operation.split(":");
+//            switch (currentOperation[0]) {
+//                case "borrow" -> library.borrowBook(currentOperation[1], currentOperation[2]);
+//                case "return" -> library.returnBook(currentOperation[1], currentOperation[2]);
+//            }
+//        }
 
-        for(String operation: operations){
-            String[] currentOperation = operation.split(":");
-            switch (currentOperation[0]){
-                case "borrow" -> library.borrowBook(currentOperation[1], currentOperation[2]);
-                case "return" -> library.returnBook(currentOperation[1], currentOperation[2]);
+        //STEP3: TODO: Print summary for each book in format "[isbn]: [Available/Borrowed]"
+//        for (Book libraryBook : library.getBooks()) {
+//            String available = (libraryBook.isAvailable() ? "Available" : "Borrowed");
+//            System.out.println(libraryBook.getIsbn() + ": " + available);
+//        }
+        System.out.println();
+        System.out.println("-----------------------------STEP-4-----------------------------------");
+
+        //STEP4: Process borrow operation
+        String[] parts = borrowOp.split(":");
+        String opUserId = parts[0];
+        String opIsbn = parts[1];
+        library.borrowBook(opUserId, opIsbn);
+
+        //STEP4: TODO: Title search
+        // Print "Title search '[titleKeyword]':"
+        // Use library.searchByTitle(titleKeyword)
+        // Print each book's getDetails(), or "No books found" if empty
+        System.out.println("Title search '" + titleKeyword + "':");
+        ArrayList<Book> foundedByTitleBooks = library.searchByTitle(titleKeyword);
+        if(foundedByTitleBooks.size()==0){
+            System.out.println("No books found");
+        } else {
+            for (Book foundedBook : foundedByTitleBooks) {
+                System.out.println(foundedBook.getDetails());
+            }
+        }
+        //STEP4: TODO: Author search
+        // Print "Author search '[authorKeyword]':"
+        // Use library.searchByAuthor(authorKeyword)
+        // Print each book's getDetails(), or "No books found" if empty
+        System.out.println("Author search '" + authorKeyword + "':");
+        ArrayList<Book> foundedByAuthorBooks = library.searchByAuthor(authorKeyword);
+        if(foundedByAuthorBooks.size()==0){
+            System.out.println("No books found");
+        } else {
+            for (Book foundedBook : foundedByAuthorBooks) {
+                System.out.println(foundedBook.getDetails());
             }
         }
 
-        //STEP3: TODO: Print summary for each book in format "[isbn]: [Available/Borrowed]"
-        for (Book libraryBook: library.getBooks()){
-            String available = (libraryBook.isAvailable()?"Available": "Borrowed");
-            System.out.println(libraryBook.getIsbn()+ ": " + available);
+        //STEP4: TODO: Available books
+        // Print "Available books:"
+        // Use library.getAvailableBooks()
+        // Print each book's getDetails()
+        System.out.println("Available books:");
+        for (Book availableBook: library.getAvailableBooks()){
+            System.out.println(availableBook.getDetails());
         }
-
     }
 }

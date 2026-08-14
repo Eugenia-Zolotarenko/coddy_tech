@@ -80,4 +80,37 @@ class Library {
             System.out.println(user.getName() + " returned " + book.getTitle());
         }
     }
+    //STEP4: TODO: Add searchByTitle(String keyword) method
+    // Returns ArrayList<Book> of books whose title contains keyword (case-insensitive)
+    public ArrayList<Book> searchByTitle(String keyword){
+        ArrayList<Book> foundedBooks = new ArrayList<>();
+        for(Book book: books){
+            if(book.getTitle().toLowerCase().contains(keyword.toLowerCase()))
+                foundedBooks.add(book);
+        }
+        return foundedBooks;
+    }
+
+    //STEP4: TODO: Add searchByAuthor(String keyword) method
+    // Returns ArrayList<Book> of books whose author contains keyword (case-insensitive)
+    public ArrayList<Book> searchByAuthor(String keyword){
+        ArrayList<Book> foundedBooks = new ArrayList<>();
+        for(Book book: books){
+            if(book.getAuthor().toLowerCase().contains(keyword.toLowerCase()))
+                foundedBooks.add(book);
+        }
+        return foundedBooks;
+    }
+
+    //STEP4: TODO: Add getAvailableBooks() method
+    // Returns ArrayList<Book> of books that are currently available
+
+    public ArrayList<Book> getAvailableBooks(){
+        ArrayList<Book> availableBooks = new ArrayList<>();
+        for(Book book: books){
+            if(book.isAvailable())
+                availableBooks.add(book);
+        }
+        return availableBooks;
+    }
 }
