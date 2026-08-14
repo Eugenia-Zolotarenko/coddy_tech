@@ -113,4 +113,22 @@ class Library {
         }
         return availableBooks;
     }
+    //STEP5: TODO: Add removeBook(String isbn) method
+    // Returns true if the book was found and is available, then removes it
+    // Returns false if the book doesn't exist or is currently borrowed
+    public boolean removeBook(String isbn){
+        for(Book book: books){
+            if(book.getIsbn().equals(isbn) && book.isAvailable()){
+                return books.remove(book);
+                //return true;
+            }
+        } return false;
+    }
+
+    //STEP5: TODO: Add getAllBooks() method
+    // Returns the full list of books
+    public ArrayList<Book> getAllBooks() {
+        return books;
+    }
+
 }
