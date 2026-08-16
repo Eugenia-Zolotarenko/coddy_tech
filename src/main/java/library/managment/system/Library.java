@@ -46,23 +46,36 @@ class Library {
         } return null;
     }
 
+    //STEP6: TODO: Update borrowBook to return String and throws LibraryException
+    // - Throw LibraryException("User not found: " + userId) if user is null
+    // - Throw LibraryException("Book not found: " + isbn) if book is null
+    // - Throw BookNotAvailableException(isbn) if book is not available
+    // - On success, have user borrow the book and return "[userName] borrowed [bookTitle]"
+
     // TODO: borrowBook(String userId, String isbn)
     //       - Find user and book
     //       - If either not found, print "Invalid user or book"
     //       - If book not available, print "Book not available"
     //       - Otherwise, have user borrow the book and print "[userName] borrowed [bookTitle]"
-    public void borrowBook(String userId, String isbn){
+    public String borrowBook(String userId, String isbn) throws LibraryExceptions {
         User user = findUserById(userId);
         Book book = findBookByIsbn(isbn);
-        if(book==null || user == null){
-            System.out.println("Invalid user or book");
-            return;
+        if(user==null){
+            // STEP6:
+            throw new LibraryExceptions("User not found: " + userId);
+        }
+        if(book == null){
+            // STEP6:
+            throw new LibraryExceptions("Book not found: " + isbn);
         }
         if(!book.isAvailable()) {
-            System.out.println("Book not available");
+            // STEP6:
+            throw  new BookNotAvailableException(isbn);
+            // STEP6: System.out.println("Book not available");
         } else {
             user.borrowBook(book);
-            System.out.println(user.getName() + " borrowed " + book.getTitle());
+            // STEP6: System.out.println(user.getName() + " borrowed " + book.getTitle());
+            return user.getName() + " borrowed " + book.getTitle();
         }
     }
 
