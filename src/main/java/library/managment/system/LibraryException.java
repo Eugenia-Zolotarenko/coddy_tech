@@ -3,8 +3,8 @@ package library.managment.system;
 // - It should extend Exception
 // - Include a constructor that accepts a message and passes it to the parent class
 
-public class LibraryExceptions extends  Exception{
-    public LibraryExceptions(String message) {
+public class LibraryException extends  Exception{
+    public LibraryException(String message) {
         super(message);
     }
 }

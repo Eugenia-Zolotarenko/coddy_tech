@@ -1,6 +1,7 @@
 package library.managment.system;
 
 import java.util.ArrayList;
+import java.util.List;
 
 class Library {
     // TODO: Declare two private ArrayLists — one for Book objects, one for User objects
@@ -57,16 +58,16 @@ class Library {
     //       - If either not found, print "Invalid user or book"
     //       - If book not available, print "Book not available"
     //       - Otherwise, have user borrow the book and print "[userName] borrowed [bookTitle]"
-    public String borrowBook(String userId, String isbn) throws LibraryExceptions {
+    public String borrowBook(String userId, String isbn) throws LibraryException {
         User user = findUserById(userId);
         Book book = findBookByIsbn(isbn);
         if(user==null){
             // STEP6:
-            throw new LibraryExceptions("User not found: " + userId);
+            throw new LibraryException("User not found: " + userId);
         }
         if(book == null){
             // STEP6:
-            throw new LibraryExceptions("Book not found: " + isbn);
+            throw new LibraryException("Book not found: " + isbn);
         }
         if(!book.isAvailable()) {
             // STEP6:
@@ -142,6 +143,11 @@ class Library {
     // Returns the full list of books
     public ArrayList<Book> getAllBooks() {
         return books;
+    }
+
+    //STEP7:// TODO: Add getAllUsers() method that returns the users list
+    public ArrayList<User> getAllUsers(){
+        return users;
     }
 
 }

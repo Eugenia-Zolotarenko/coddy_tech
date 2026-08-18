@@ -1,12 +1,22 @@
 package library.managment.system;
 import java.util.Scanner;
 import java.util.ArrayList;
-//STEP6:
+import java.util.Scanner;
+import java.util.ArrayList;
+//STEP7
 class Main {
     public static void main(String[] args) {
 
         // Read the comma-separated commands
-        String input = "ADD_BOOK:ISBN-001:Clean Code:Robert Martin,REGISTER_USER:U001:Alice,BORROW:U001:ISBN-001,BORROW:U001:ISBN-001,BORROW:U002:ISBN-001";
+        String input = "ADD_BOOK:ISBN-001:Java Basics:John Doe,REGISTER_USER:U001:Alice,BORROW:U001:ISBN-001";
+        input = "ADD_BOOK:ISBN-001:Clean Code:Robert Martin,REGISTER_USER:U001:Alice,BORROW:U001:ISBN-001,RETURN:U001:ISBN-001";
+        input = "ADD_BOOK:ISBN-001:Python Guide:Jane Smith,REGISTER_USER:U001:Bob,BORROW:U001:ISBN-001,BORROW:U001:ISBN-001";
+        input = "ADD_BOOK:ISBN-001:Data Structures:Alan Turing,SEARCH_TITLE:data";
+        input = "ADD_BOOK:ISBN-001:Web Dev:Tim Lee,REMOVE_BOOK:ISBN-001";
+        input = "ADD_BOOK:ISBN-001:Machine Learning:Andrew Ng,REGISTER_USER:U001:Carol,BORROW:U001:ISBN-001,REMOVE_BOOK:ISBN-001";
+        input = "ADD_BOOK:ISBN-001:Clean Code:Robert Martin,ADD_BOOK:ISBN-002:Effective Java:Joshua Bloch,REGISTER_USER:U001:Alice,REGISTER_USER:U002:Bob,BORROW:U001:ISBN-001,BORROW:U002:ISBN-001,SEARCH_TITLE:java,RETURN:U001:ISBN-001,REMOVE_BOOK:ISBN-001";
+        input = "ADD_BOOK:ISBN-001:Java Programming:James Gosling,ADD_BOOK:ISBN-002:Java Concurrency:Brian Goetz,ADD_BOOK:ISBN-003:Spring Boot:Craig Walls,REGISTER_USER:U001:Dave,REGISTER_USER:U002:Eve,SEARCH_TITLE:java,SEARCH_AUTHOR:craig,BORROW:U001:ISBN-001,BORROW:U001:ISBN-002,BORROW:U002:ISBN-003,REMOVE_BOOK:ISBN-001";
+        input = "ADD_BOOK:ISBN-001:Design Patterns:Gang of Four,ADD_BOOK:ISBN-002:Refactoring:Martin Fowler,ADD_BOOK:ISBN-003:Test Driven:Kent Beck,REGISTER_USER:U001:Frank,REGISTER_USER:U002:Grace,REGISTER_USER:U003:Henry,BORROW:U001:ISBN-001,BORROW:U002:ISBN-002,BORROW:U003:ISBN-003,SEARCH_TITLE:test,SEARCH_AUTHOR:fowler,RETURN:U002:ISBN-002,REMOVE_BOOK:ISBN-002,BORROW:U003:ISBN-002";
         String[] commands = input.split(",");
 
         // Create Library and AdminService
@@ -41,22 +51,114 @@ class Main {
             } else if (operation.equals("BORROW")) {
                 String userId = parts[1];
                 String isbn = parts[2];
-                // TODO: Use a try-catch block to call library.borrowBook(userId, isbn)
-                // On success, print the returned confirmation message
-                // On LibraryException, print "Error: " + e.getMessage()
-                try{
-                    //library.borrowBook(userId, isbn);
-                    System.out.println(library.borrowBook(userId, isbn));
-                } catch (LibraryExceptions e) {
+                try {
+                    String result = library.borrowBook(userId, isbn);
+                    System.out.println(result);
+                } catch (LibraryException e) {
                     System.out.println("Error: " + e.getMessage());
                 }
             }
+                //STEP7: TODO: Add handling for RETURN command
+             else if (operation.equals("RETURN")) {
+                    String userId = parts[1];
+                    String isbn = parts[2];
+                    library.returnBook(userId, isbn);
+             }
+            //STEP7: TODO: Add handling for SEARCH_TITLE command
+            else if (operation.equals("SEARCH_TITLE")) {
+                String keyword = parts[1];
+                ArrayList<Book> foundedByTitle = library.searchByTitle(keyword);
+                if(!foundedByTitle.isEmpty()) {
+                    System.out.println("Search '" + keyword + "':");
+                    for(Book book: foundedByTitle){
+                        System.out.println(book.getDetails());
+                    }
+                } else System.out.println("No results");
+            }
+            //STEP7: TODO: Add handling for SEARCH_AUTHOR command
+            else if (operation.equals("SEARCH_AUTHOR")) {
+                String keyword = parts[1];
+                ArrayList<Book> foundedByTitle = library.searchByAuthor(keyword);
+                if(!foundedByTitle.isEmpty()) {
+                    System.out.println("Search '" + keyword + "':");
+                    for(Book book: foundedByTitle){
+                        System.out.println(book.getDetails());
+                    }
+                } else System.out.println("No results");
+            }
         }
-
-        // TODO: Print "Operations completed"
-        System.out.println("Operations completed");
+        //STEP7: TODO: Print final status
+        //STEP7: --- Final Status ---
+        //STEP7: Books: [count]
+        // STEP7: Users: [count]
+        //STEP7:  For each user: [name]: [borrowedCount] book(s)
+       //STEP7: System.out.println("Operations completed");
+        System.out.println("--- Final Status ---");
+        System.out.println("Books: " + library.getAllBooks().size());
+        System.out.println("Users: " + library.getAllUsers().size());
+        for(User user: library.getAllUsers()){
+            System.out.println(user.getName()+ ": " + user.getBorrowedCount() + " book(s)");
+        }
     }
 }
+
+
+//STEP6:
+//class Main {
+//    public static void main(String[] args) {
+//
+//        // Read the comma-separated commands
+//        String input = "ADD_BOOK:ISBN-001:Clean Code:Robert Martin,REGISTER_USER:U001:Alice,BORROW:U001:ISBN-001,BORROW:U001:ISBN-001,BORROW:U002:ISBN-001";
+//        String[] commands = input.split(",");
+//
+//        // Create Library and AdminService
+//        Library library = new Library();
+//        AdminService adminService = new AdminService(library);
+//
+//        // Process each command
+//        for (String command : commands) {
+//            String[] parts = command.split(":");
+//            String operation = parts[0];
+//
+//            if (operation.equals("ADD_BOOK")) {
+//                String isbn = parts[1];
+//                String title = parts[2];
+//                String author = parts[3];
+//                if (adminService.addBook(isbn, title, author)) {
+//                    System.out.println("Added: " + title);
+//                }
+//            } else if (operation.equals("REMOVE_BOOK")) {
+//                String isbn = parts[1];
+//                if (adminService.removeBook(isbn)) {
+//                    System.out.println("Removed: " + isbn);
+//                } else {
+//                    System.out.println("Cannot remove: " + isbn);
+//                }
+//            } else if (operation.equals("REGISTER_USER")) {
+//                String id = parts[1];
+//                String name = parts[2];
+//                if (adminService.registerUser(id, name)) {
+//                    System.out.println("Registered: " + name);
+//                }
+//            } else if (operation.equals("BORROW")) {
+//                String userId = parts[1];
+//                String isbn = parts[2];
+//                // TODO: Use a try-catch block to call library.borrowBook(userId, isbn)
+//                // On success, print the returned confirmation message
+//                // On LibraryException, print "Error: " + e.getMessage()
+//                try{
+//                    //library.borrowBook(userId, isbn);
+//                    System.out.println(library.borrowBook(userId, isbn));
+//                } catch (LibraryExceptions e) {
+//                    System.out.println("Error: " + e.getMessage());
+//                }
+//            }
+//        }
+//
+//        // TODO: Print "Operations completed"
+//        System.out.println("Operations completed");
+//    }
+//}
 
 ////
 ////import java.security.SecureRandom;
